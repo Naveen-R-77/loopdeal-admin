@@ -1,0 +1,11 @@
+langchain
+langchain-community
+chromadb
+sentence-transformers
+transformers
+accelerate
+fastapi
+uvicorn
+pypdf
+ollama
+huggingface_hub
