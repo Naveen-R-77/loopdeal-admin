@@ -126,7 +126,7 @@ export function TopNavbar() {
         >
           <Avatar className="h-10 w-10 ring-2 ring-white/20 transition-transform group-hover:scale-110 shadow-lg">
             <AvatarFallback className="bg-white text-[#C41E22] text-[11px] font-black tracking-tighter italic">
-              AD
+              {adminName?.split(" ").map((n: string) => n[0]).join("").substring(0, 2).toUpperCase() || "NR"}
             </AvatarFallback>
           </Avatar>
           <div className="hidden lg:flex flex-col items-start leading-none transition-opacity group-hover:opacity-80">

@@ -29,9 +29,27 @@ import {
 } from "@/components/ui/select";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
+import { useStore } from "@/contexts/StoreContext";
 
 export default function Settings() {
   const [loading, setLoading] = useState(false);
+  const { logoUrl, updateLogo } = useStore();
+
+  const handleLogoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        if (event.target?.result) {
+          updateLogo(event.target.result as string);
+          toast.success("Branding Asset Updated", {
+            description: "The store logo has been updated and synchronized in real-time."
+          });
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   const handleSave = () => {
     setLoading(true);
@@ -148,12 +166,15 @@ export default function Settings() {
                     <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
                        <Button variant="secondary" size="icon" className="h-8 w-8 rounded-full bg-white/20 text-white hover:bg-white/30"><Eye className="h-4 w-4" /></Button>
                     </div>
-                    <img src="/logo.png" alt="Current Logo" className="h-10 w-auto object-contain" />
+                    <img src={logoUrl} alt="Current Logo" className="h-10 w-auto object-contain" />
                     <span className="text-[9px] font-black uppercase tracking-[0.3em] text-white/30 italic">Active Store Logo</span>
                  </div>
-                 <Button variant="outline" className="w-full rounded-2xl h-11 text-[10px] font-black uppercase tracking-widest border-muted-foreground/10">
-                    Upload New Asset
-                 </Button>
+                 <div className="relative">
+                   <input type="file" id="logo-upload" accept="image/*" className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" onChange={handleLogoUpload} />
+                   <Button variant="outline" className="w-full rounded-2xl h-11 text-[10px] font-black uppercase tracking-widest border-muted-foreground/10 pointer-events-none">
+                      Upload New Asset
+                   </Button>
+                 </div>
               </div>
            </div>
 

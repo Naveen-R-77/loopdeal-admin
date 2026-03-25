@@ -19,6 +19,7 @@ import Invoices from "@/pages/Invoices";
 import Settings from "@/pages/Settings";
 import ActivityLog from "@/pages/ActivityLog";
 import AIAgent from "@/pages/AIAgent";
+import Transactions from "@/pages/Transactions";
 import NotFound from "@/pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -43,6 +44,7 @@ function AppRoutes() {
       <Route path="/deals" element={<ProtectedRoute><Deals /></ProtectedRoute>} />
       <Route path="/order-status" element={<ProtectedRoute><OrderStatus /></ProtectedRoute>} />
       <Route path="/invoices" element={<ProtectedRoute><Invoices /></ProtectedRoute>} />
+      <Route path="/transactions" element={<ProtectedRoute><Transactions /></ProtectedRoute>} />
       <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
       <Route path="/activity-log" element={<ProtectedRoute><ActivityLog /></ProtectedRoute>} />
       <Route path="/ai-agent" element={<ProtectedRoute><AIAgent /></ProtectedRoute>} />

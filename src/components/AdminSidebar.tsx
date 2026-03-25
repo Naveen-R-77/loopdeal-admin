@@ -1,6 +1,7 @@
-import { LayoutDashboard, Package, ShoppingCart, Users, LogOut, ChevronRight, ChevronDown, BarChart3, Tag, PlusCircle, List, ClipboardList, FileText, Settings, Bot } from "lucide-react";
+import { LayoutDashboard, Package, ShoppingCart, Users, LogOut, ChevronRight, ChevronDown, BarChart3, Tag, PlusCircle, List, ClipboardList, FileText, Settings, Bot, CreditCard } from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
+import { useStore } from "@/contexts/StoreContext";
 import { cn } from "@/lib/utils";
 import {
   Sidebar,
@@ -42,6 +43,7 @@ const navItems = [
     items: [
       { title: "All Orders", url: "/orders", icon: ShoppingCart },
       { title: "Order Status", url: "/order-status", icon: ClipboardList },
+      { title: "Transactions", url: "/transactions", icon: CreditCard },
       { title: "Invoices", url: "/invoices", icon: FileText },
     ],
   },
@@ -53,6 +55,7 @@ export function AdminSidebar() {
   const collapsed = state === "collapsed";
   const { logout } = useAuth();
   const location = useLocation();
+  const { logoUrl } = useStore();
 
   const isGroupActive = (item: any) => {
     if (item.url === "/" && location.pathname === "/") return true;
@@ -67,7 +70,7 @@ export function AdminSidebar() {
         <SidebarGroup>
           <div className="mb-8 mt-6 flex items-center gap-3 px-3">
             <div className="flex h-12 w-32 items-center justify-start overflow-hidden">
-              <img src="/logo.png" alt="LoopDeal Logo" className="h-auto w-full object-contain" />
+              <img src={logoUrl} alt="LoopDeal Logo" className="h-auto w-full object-contain" />
             </div>
             {!collapsed && <span className="text-xs font-black text-white/40 tracking-[0.3em] uppercase -ml-4 mt-4">ADMIN</span>}
           </div>

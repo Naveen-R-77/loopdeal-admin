@@ -45,7 +45,7 @@ async function seedData() {
   const userCount = await User.countDocuments();
   if (userCount === 0) {
     const defaultAdmins = [
-      { name: "Master Admin", email: "admin@store.com", password: "admin123" },
+      { name: "Naveen Ramesh", email: "naveen@loopdeal.in", password: "admin123" },
       { name: "Samukthaa", email: "samukthaa@gmail.com", password: "admin123" }
     ];
     await User.insertMany(defaultAdmins);

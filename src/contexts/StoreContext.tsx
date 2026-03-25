@@ -19,6 +19,8 @@ interface StoreContextType {
   deleteCategory: (id: string) => void;
   updateOrderStatus: (id: string, status: Order["status"]) => void;
   totalRevenue: number;
+  logoUrl: string;
+  updateLogo: (url: string) => void;
 }
 
 const StoreContext = createContext<StoreContextType | undefined>(undefined);
@@ -26,6 +28,7 @@ const StoreContext = createContext<StoreContextType | undefined>(undefined);
 export function StoreProvider({ children }: { children: ReactNode }) {
   const [products, setProducts] = useState<Product[]>([]);
   const [orders, setOrders] = useState<Order[]>(initialOrders);
+  const [logoUrl, setLogoUrl] = useState(() => localStorage.getItem("store_logo") || "/logo.png");
   const [categories, setCategories] = useState<Category[]>([
     { id: "1", name: "CCTV Cameras", count: 0 },
     { id: "2", name: "NVR & DVR", count: 0 },
@@ -93,6 +96,11 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     setOrders(prev => prev.map(o => o.id === id ? { ...o, status } : o));
   };
 
+  const updateLogo = (url: string) => {
+    setLogoUrl(url);
+    localStorage.setItem("store_logo", url);
+  };
+
   return (
     <StoreContext.Provider value={{ 
       products, 
@@ -104,7 +112,9 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       addCategory, 
       deleteCategory,
       updateOrderStatus,
-      totalRevenue
+      totalRevenue,
+      logoUrl,
+      updateLogo
     }}>
       {children}
     </StoreContext.Provider>

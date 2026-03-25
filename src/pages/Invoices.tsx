@@ -23,7 +23,7 @@ import { cn, formatCurrency } from "@/lib/utils";
 import { useStore } from "@/contexts/StoreContext";
 
 export default function Invoices() {
-  const { orders, updateOrderStatus } = useStore();
+  const { orders, updateOrderStatus, logoUrl } = useStore();
   const [search, setSearch] = useState("");
   const [isExporting, setIsExporting] = useState(false);
   const [selectedInvoice, setSelectedInvoice] = useState<any>(null);
@@ -146,10 +146,10 @@ export default function Invoices() {
                   </td>
                   <td className="px-6 py-4 text-right">
                     <div className="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-all">
-                      <Button variant="soft" size="icon" className="h-9 w-9 text-primary bg-primary/10 hover:bg-primary/20 rounded-xl" onClick={() => handleAction(inv, 'print')}>
+                      <Button variant="secondary" size="icon" className="h-9 w-9 text-primary bg-primary/10 hover:bg-primary/20 rounded-xl" onClick={() => handleAction(inv, 'print')}>
                         <Download className="h-4 w-4" />
                       </Button>
-                      <Button variant="soft" size="icon" className="h-9 w-9 text-dark bg-secondary/80 hover:bg-secondary rounded-xl" onClick={() => handleAction(inv, 'view')}>
+                      <Button variant="secondary" size="icon" className="h-9 w-9 text-dark bg-secondary/80 hover:bg-secondary rounded-xl" onClick={() => handleAction(inv, 'view')}>
                         <ExternalLink className="h-4 w-4" />
                       </Button>
                     </div>
@@ -179,7 +179,7 @@ export default function Invoices() {
              </div>
             <div className="flex justify-between items-start mb-12 relative z-10">
               <div className="space-y-6">
-                <img src="/logo.png" alt="LoopDeal" className="h-12 w-auto object-contain filter brightness-0 invert" />
+                <img src={logoUrl} alt="LoopDeal" className="h-12 w-auto object-contain filter brightness-0 invert" />
                 <div>
                    <h2 className="text-xs font-black tracking-[0.3em] opacity-60 uppercase mb-4">Official Payment Record</h2>
                    <div className="text-[10px] font-black uppercase opacity-60 space-y-1">

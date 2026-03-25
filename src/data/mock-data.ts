@@ -36,11 +36,11 @@ export interface Order {
 }
 
 export const mockUsers: User[] = [
-  { id: "u1", name: "Alice Johnson", email: "alice@example.com", role: "user", createdAt: "2025-11-15" },
-  { id: "u2", name: "Bob Smith", email: "bob@example.com", role: "user", createdAt: "2025-12-01" },
-  { id: "u3", name: "Charlie Brown", email: "charlie@example.com", role: "user", createdAt: "2026-01-10" },
-  { id: "u4", name: "Diana Prince", email: "diana@example.com", role: "admin", createdAt: "2025-10-20" },
-  { id: "u5", name: "Eve Williams", email: "eve@example.com", role: "user", createdAt: "2026-02-05" },
+  { id: "u1", name: "Karthik", email: "karthik@example.com", role: "user", createdAt: "2025-11-15" },
+  { id: "u2", name: "Vignesh", email: "vignesh@example.com", role: "user", createdAt: "2025-12-01" },
+  { id: "u3", name: "Muthu Kumar", email: "muthu@example.com", role: "user", createdAt: "2026-01-10" },
+  { id: "u4", name: "Naveen Ramesh", email: "naveen@loopdeal.in", role: "admin", createdAt: "2025-10-20" },
+  { id: "u5", name: "Priya", email: "priya@example.com", role: "user", createdAt: "2026-02-05" },
 ];
 
 export const mockProducts: Product[] = [
@@ -59,10 +59,29 @@ export const mockProducts: Product[] = [
 ];
 
 export const mockOrders: Order[] = [
-  { id: "ORD-001", userId: "u1", userName: "Alice Johnson", items: [{ productId: "p2", productName: "CP PLUS ezyKam+ Smart Wi-Fi Camera", quantity: 1, price: 2499 }], totalAmount: 2499, status: "Delivered", createdAt: "2026-03-01" },
-  { id: "ORD-002", userId: "u2", userName: "Bob Smith", items: [{ productId: "p10", productName: "LENOVO THINKCENTRE M73 TINY PC", quantity: 1, price: 14000 }], totalAmount: 14000, status: "Shipped", createdAt: "2026-03-05" },
-  { id: "ORD-003", userId: "u3", userName: "Charlie Brown", items: [{ productId: "p1", productName: "COFE 4G / 5G SIM Card Wi-Fi 6 Router", quantity: 2, price: 1800 }], totalAmount: 3600, status: "Pending", createdAt: "2026-03-10" },
-  { id: "ORD-004", userId: "u5", userName: "Eve Williams", items: [{ productId: "p5", productName: "CP PLUS 4G SIM Card Wi-Fi 6 Router", quantity: 1, price: 2299 }], totalAmount: 2299, status: "Delayed", createdAt: "2026-03-12" },
+  { id: "ORD-001", userId: "u1", userName: "Karthik", items: [{ productId: "p2", productName: "CP PLUS ezyKam+ Smart Wi-Fi Camera", quantity: 1, price: 2499 }], totalAmount: 2499, status: "Delivered", createdAt: "2026-03-01" },
+  { id: "ORD-002", userId: "u2", userName: "Vignesh", items: [{ productId: "p10", productName: "LENOVO THINKCENTRE M73 TINY PC", quantity: 1, price: 14000 }], totalAmount: 14000, status: "Shipped", createdAt: "2026-03-05" },
+  { id: "ORD-003", userId: "u3", userName: "Muthu Kumar", items: [{ productId: "p1", productName: "COFE 4G / 5G SIM Card Wi-Fi 6 Router", quantity: 2, price: 1800 }], totalAmount: 3600, status: "Pending", createdAt: "2026-03-10" },
+  { id: "ORD-004", userId: "u5", userName: "Priya", items: [{ productId: "p5", productName: "CP PLUS 4G SIM Card Wi-Fi 6 Router", quantity: 1, price: 2299 }], totalAmount: 2299, status: "Delayed", createdAt: "2026-03-12" },
+];
+
+export interface Transaction {
+  id: string;
+  orderId: string;
+  userId: string;
+  userName: string;
+  amount: number;
+  paymentMethod: "UPI" | "Credit Card" | "Debit Card" | "Net Banking";
+  status: "Success" | "Pending" | "Failed";
+  date: string;
+}
+
+export const mockTransactions: Transaction[] = [
+  { id: "TXN-1001", orderId: "ORD-001", userId: "u1", userName: "Karthik", amount: 2499, paymentMethod: "UPI", status: "Success", date: "2026-03-01T10:30:00Z" },
+  { id: "TXN-1002", orderId: "ORD-002", userId: "u2", userName: "Vignesh", amount: 14000, paymentMethod: "Credit Card", status: "Success", date: "2026-03-05T14:15:00Z" },
+  { id: "TXN-1003", orderId: "ORD-003", userId: "u3", userName: "Muthu Kumar", amount: 3600, paymentMethod: "UPI", status: "Pending", date: "2026-03-10T09:45:00Z" },
+  { id: "TXN-1004", orderId: "ORD-004", userId: "u5", userName: "Priya", amount: 2299, paymentMethod: "Debit Card", status: "Success", date: "2026-03-12T16:20:00Z" },
+  { id: "TXN-1005", orderId: "ORD-005", userId: "u1", userName: "Karthik", amount: 1599, paymentMethod: "UPI", status: "Failed", date: "2026-03-14T11:00:00Z" },
 ];
 
 // Sales data for line chart

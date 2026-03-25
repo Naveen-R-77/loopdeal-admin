@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
+import { useStore } from "@/contexts/StoreContext";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -14,6 +15,7 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const { login, register } = useAuth();
+  const { logoUrl } = useStore();
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -49,8 +51,8 @@ export default function Login() {
       
       <div className="w-full max-w-sm space-y-8 relative">
         <div className="text-center space-y-4">
-          <div className="mx-auto flex h-16 w-32 items-center justify-center rounded-2xl overflow-hidden p-2">
-            <img src="/logo.png" alt="LoopDeal Logo" className="h-full w-full object-contain" />
+          <div className="mx-auto flex h-16 w-32 items-center justify-center rounded-2xl bg-[#1A1A1A] shadow-xl overflow-hidden p-2">
+            <img src={logoUrl} alt="LoopDeal Logo" className="h-full w-full object-contain" />
           </div>
           <div className="space-y-1">
             <h1 className="text-3xl font-black text-foreground tracking-tighter uppercase italic italic-accent">{isLogin ? "LOOPDEAL LOGIN" : "JOIN THE TEAM"}</h1>
@@ -111,7 +113,7 @@ export default function Login() {
           </button>
           
           <p className="text-[10px] text-muted-foreground uppercase tracking-widest leading-loose opacity-40">
-            {isLogin ? "Demo Access: admin@store.com / admin123" : "Enterprise Registration requires master approval"}
+            {isLogin ? "Demo Access: naveen@loopdeal.in / admin123" : "Enterprise Registration requires master approval"}
           </p>
         </div>
       </div>

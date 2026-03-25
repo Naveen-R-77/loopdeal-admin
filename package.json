@@ -6,12 +6,16 @@
   "scripts": {
     "dev": "vite",
     "server": "node server/index.cjs",
+    "start": "node server/index.cjs",
     "build": "tsc && vite build",
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",

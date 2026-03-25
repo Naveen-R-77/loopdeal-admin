@@ -10,16 +10,20 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Search, Trash2, Eye } from "lucide-react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { toast } from "sonner";
+import { useAuth } from "@/contexts/AuthContext";
 
 const PAGE_SIZE = 6;
 
 export default function UsersPage() {
+  const { adminName, adminEmail } = useAuth();
   const [users, setUsers] = useState<User[]>(mockUsers);
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
   const [detailUser, setDetailUser] = useState<User | null>(null);
 
-  const filtered = users.filter(
+  const displayUsers = users.map(u => u.role === "admin" ? { ...u, name: adminName, email: adminEmail } : u);
+
+  const filtered = displayUsers.filter(
     (u) => u.name.toLowerCase().includes(search.toLowerCase()) || u.email.toLowerCase().includes(search.toLowerCase())
   );
 
