@@ -89,7 +89,6 @@ const AIAgent = () => {
                 const data = JSON.parse(line.replace("data: ", ""));
                 if (data.chunk) {
                   fullContent += data.chunk;
-                  // Update the specific message content
                   setMessages((prev) => 
                     prev.map((msg) => 
                       msg.id === assistantId ? { ...msg, content: fullContent } : msg
@@ -119,7 +118,7 @@ const AIAgent = () => {
     <div className="flex flex-col h-[calc(100vh-120px)] max-w-6xl mx-auto space-y-4">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className="p-3 bg-[#C41E22] rounded-2xl shadow-lg ring-4 ring-red-500/10">
+          <div className="p-3 bg-primary rounded-2xl shadow-lg ring-4 ring-primary/10">
             <Bot className="h-6 w-6 text-white" />
           </div>
           <div>
@@ -131,7 +130,7 @@ const AIAgent = () => {
           </div>
         </div>
         <div className="flex items-center gap-2">
-           <Button variant="outline" size="sm" className="gap-2 text-[10px] font-bold border-white/10" onClick={() => setMessages([messages[0]])}>
+           <Button variant="outline" size="sm" className="gap-2 text-[10px] font-bold" onClick={() => setMessages([messages[0]])}>
             <RotateCcw className="h-3 w-3" /> CLEAR HISTORY
           </Button>
         </div>
@@ -139,16 +138,16 @@ const AIAgent = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 h-full overflow-hidden">
         {/* Chat Area */}
-        <Card className="lg:col-span-3 flex flex-col border-white/5 bg-black/40 backdrop-blur-xl shadow-2xl relative overflow-hidden group">
-          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#C41E22] to-transparent opacity-50" />
+        <Card className="lg:col-span-3 flex flex-col border bg-card shadow-sm relative overflow-hidden group">
+          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary to-transparent opacity-50" />
           
-          <CardHeader className="py-3 border-b border-white/5 bg-white/5">
-            <CardTitle className="text-sm font-bold flex items-center gap-2">
-              <ShieldCheck className="h-4 w-4 text-[#C41E22]" /> Secure Enterprise Chat
+          <CardHeader className="py-3 border-b bg-muted/30">
+            <CardTitle className="text-sm font-bold flex items-center gap-2 text-foreground">
+              <ShieldCheck className="h-4 w-4 text-primary" /> Secure Enterprise Chat
             </CardTitle>
           </CardHeader>
 
-          <CardContent className="flex-1 p-0 overflow-hidden relative">
+          <CardContent className="flex-1 p-0 overflow-hidden relative bg-card">
             <ScrollArea className="h-full p-6">
               <div className="space-y-6 pb-4">
                 <AnimatePresence initial={false}>
@@ -159,22 +158,22 @@ const AIAgent = () => {
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       className={`flex gap-4 ${message.role === "user" ? "flex-row-reverse" : ""}`}
                     >
-                      <Avatar className={`h-10 w-10 border-2 font-black ${
+                      <Avatar className={`h-10 w-10 border-2 font-black shadow-sm ${
                         message.role === "assistant" 
-                          ? "border-[#C41E22] bg-[#C41E22] text-white" 
-                          : "border-white/10 bg-white/10 text-white"
+                          ? "border-primary bg-primary text-white" 
+                          : "border-muted-foreground/20 bg-muted text-foreground"
                       }`}>
                         {message.role === "assistant" ? <Bot className="h-5 w-5" /> : <User className="h-5 w-5" />}
                       </Avatar>
                       <div className={`flex flex-col max-w-[80%] ${message.role === "user" ? "items-end" : ""}`}>
-                        <div className={`p-4 rounded-2xl text-sm leading-relaxed shadow-lg ${
+                        <div className={`p-4 rounded-2xl text-sm leading-relaxed shadow-sm ${
                           message.role === "assistant"
-                            ? "bg-white/5 text-white/90 border border-white/5 rounded-tl-none"
-                            : "bg-[#C41E22] text-white rounded-tr-none"
+                            ? "bg-muted text-foreground border rounded-tl-none font-medium"
+                            : "bg-primary text-primary-foreground rounded-tr-none font-medium"
                         }`}>
                           {message.content}
                         </div>
-                        <span className="text-[10px] text-muted-foreground mt-1 px-1 opacity-50">
+                        <span className="text-[10px] text-muted-foreground mt-1 px-1 font-bold tracking-wider">
                           {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                         </span>
                       </div>
@@ -183,25 +182,27 @@ const AIAgent = () => {
                 </AnimatePresence>
                 {isLoading && (
                   <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex gap-4">
-                    <Avatar className="h-10 w-10 border-2 border-[#C41E22] bg-[#C41E22]">
+                    <Avatar className="h-10 w-10 border-2 border-primary bg-primary">
                       <Bot className="h-5 w-5 text-white animate-bounce" />
                     </Avatar>
-                    <div className="bg-white/5 p-4 rounded-2xl rounded-tl-none border border-white/5 flex gap-1 items-center">
-                      <span className="h-2 w-2 bg-white/40 rounded-full animate-bounce [animation-delay:-0.3s]" />
-                      <span className="h-2 w-2 bg-white/40 rounded-full animate-bounce [animation-delay:-0.15s]" />
-                      <span className="h-2 w-2 bg-white/40 rounded-full animate-bounce" />
+                    <div className="bg-muted p-4 rounded-2xl rounded-tl-none border flex gap-1 items-center">
+                      <span className="h-2 w-2 bg-primary/40 rounded-full animate-bounce [animation-delay:-0.3s]" />
+                      <span className="h-2 w-2 bg-primary/40 rounded-full animate-bounce [animation-delay:-0.15s]" />
+                      <span className="h-2 w-2 bg-primary/40 rounded-full animate-bounce" />
                     </div>
                   </motion.div>
                 )}
+                {/* Scroll Target */}
+                <div ref={scrollRef} />
               </div>
             </ScrollArea>
           </CardContent>
 
-          <CardFooter className="p-4 bg-white/5 border-t border-white/5">
-            <div className="flex w-full items-center gap-3 bg-black/40 rounded-full p-1 pl-4 border border-white/10 focus-within:border-[#C41E22]/50 transition-all shadow-inner">
+          <CardFooter className="p-4 bg-muted/10 border-t">
+             <div className="flex w-full items-center gap-3 bg-background rounded-full p-1 pl-4 border focus-within:border-primary/50 focus-within:ring-1 focus-within:ring-primary/20 transition-all shadow-sm">
               <input
                 placeholder="Ask the Agent about store policies..."
-                className="flex-1 bg-transparent border-none focus:ring-0 text-sm text-white placeholder:text-muted-foreground outline-none"
+                className="flex-1 bg-transparent border-none focus:ring-0 text-sm text-foreground placeholder:text-muted-foreground outline-none w-full"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && handleSend()}
@@ -209,7 +210,7 @@ const AIAgent = () => {
               <Button 
                 onClick={handleSend}
                 disabled={!input.trim() || isLoading}
-                className="rounded-full h-10 w-10 p-0 bg-[#C41E22] hover:bg-[#A3161A] transition-colors"
+                className="rounded-full h-10 w-10 p-0 bg-primary hover:bg-primary/90 text-white transition-colors"
               >
                 <Send className="h-4 w-4" />
               </Button>
@@ -219,37 +220,12 @@ const AIAgent = () => {
 
         {/* Sidebar Panel */}
         <div className="space-y-6">
-          <Card className="border-white/5 bg-black/40 shadow-xl overflow-hidden relative">
-             <div className="absolute top-0 right-0 p-2 opacity-5">
-              <Database className="h-20 w-20" />
-            </div>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-xs font-black tracking-widest uppercase opacity-50 flex items-center gap-2">
-                <Database className="h-3 w-3" /> System Status
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex justify-between items-center p-3 rounded-lg bg-white/5">
-                <span className="text-xs font-medium opacity-70">Core Engine</span>
-                <Badge variant="outline" className="text-[9px] bg-emerald-500/10 text-emerald-500 border-none font-bold italic">LLAMA-3.2</Badge>
-              </div>
-              <div className="flex justify-between items-center p-3 rounded-lg bg-white/5">
-                <span className="text-xs font-medium opacity-70">Knowledge Base</span>
-                <Badge variant="outline" className="text-[9px] bg-blue-500/10 text-blue-500 border-none font-bold italic">ACTIVE</Badge>
-              </div>
-              <div className="flex justify-between items-center p-3 rounded-lg bg-white/5">
-                <span className="text-xs font-medium opacity-70">Vector DB</span>
-                <Badge variant="outline" className="text-[9px] bg-purple-500/10 text-purple-500 border-none font-bold italic">CHROMADB</Badge>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="border-white/5 bg-black/40 shadow-xl relative overflow-hidden group">
+          <Card className="border bg-card shadow-sm relative overflow-hidden group">
             <div className="absolute -bottom-2 -left-2 p-2 opacity-5 rotate-12 transition-transform group-hover:scale-125">
-              <Zap className="h-16 w-16 text-[#C41E22]" />
+              <Zap className="h-16 w-16 text-primary" />
             </div>
             <CardHeader className="pb-2">
-              <CardTitle className="text-[10px] font-black tracking-widest uppercase opacity-50">Usage Tips</CardTitle>
+              <CardTitle className="text-[10px] font-black tracking-widest uppercase text-muted-foreground">Usage Tips</CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
               {[
@@ -258,14 +234,13 @@ const AIAgent = () => {
                 "Check Warranty periods",
                 "Verify Refund guidelines"
               ].map((tip, i) => (
-                <div key={i} className="flex items-start gap-2 text-xs opacity-80 cursor-pointer hover:text-[#C41E22] transition-colors" onClick={() => setInput(tip)}>
-                  <ChevronRight className="h-3 w-3 mt-0.5 text-[#C41E22]" />
+                <div key={i} className="flex items-start gap-2 text-xs text-foreground cursor-pointer font-medium hover:text-primary transition-colors" onClick={() => setInput(tip)}>
+                  <ChevronRight className="h-3 w-3 mt-0.5 text-primary shrink-0" />
                   <span>{tip}</span>
                 </div>
               ))}
             </CardContent>
           </Card>
-
         </div>
       </div>
     </div>
