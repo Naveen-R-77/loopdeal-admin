@@ -36,11 +36,11 @@ export interface Order {
 }
 
 export const mockUsers: User[] = [
-  { id: "u1", name: "Thirumalai", email: "karthik@example.com", role: "user", createdAt: "2025-11-15" },
-  { id: "u2", name: "Elango", email: "vignesh@example.com", role: "user", createdAt: "2025-12-01" },
-  { id: "u3", name: "Senthamizh", email: "muthu@example.com", role: "user", createdAt: "2026-01-10" },
+  { id: "u1", name: "Thirumalai", email: "thirumalai@example.com", role: "user", createdAt: "2025-11-15" },
+  { id: "u2", name: "Elango", email: "elango@example.com", role: "user", createdAt: "2025-12-01" },
+  { id: "u3", name: "Senthamizh", email: "senthamizh@example.com", role: "user", createdAt: "2026-01-10" },
   { id: "u4", name: "Naveen Ramesh", email: "naveen@loopdeal.in", role: "admin", createdAt: "2025-10-20" },
-  { id: "u5", name: "Kayalvizhi", email: "priya@example.com", role: "user", createdAt: "2026-02-05" },
+  { id: "u5", name: "Kayalvizhi", email: "kayalvizhi@example.com", role: "user", createdAt: "2026-02-05" },
 ];
 
 export const mockProducts: Product[] = [
