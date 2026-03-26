@@ -172,17 +172,14 @@ export default function Invoices() {
       </div>
 
       <Dialog open={!!selectedInvoice} onOpenChange={(open) => !open && setSelectedInvoice(null)}>
-        <DialogContent className="max-w-2xl rounded-[2.5rem] overflow-hidden p-0 border-0 shadow-2xl printable-area">
-          <div className="bg-primary p-12 text-white relative overflow-hidden">
-             <div className="absolute top-0 right-0 p-4 opacity-5 pointer-events-none">
-                <FileText className="h-64 w-64 -mr-16 -mt-16 rotate-12" />
-             </div>
-            <div className="flex justify-between items-start mb-12 relative z-10">
+        <DialogContent className="max-w-2xl rounded-[2.5rem] overflow-hidden p-0 border-0 shadow-2xl printable-area bg-white">
+          <div className="print-header bg-primary p-12 text-white relative overflow-hidden max-w-[800px] w-full mx-auto">
+            <div className="flex justify-between items-start mb-12 relative z-10 w-full">
               <div className="space-y-6">
-                <img src={logoUrl} alt="LoopDeal" className="h-12 w-auto object-contain filter brightness-0 invert" />
+                <img src={logoUrl} alt="LoopDeal" className="h-12 w-auto object-contain filter brightness-0 invert print-logo" />
                 <div>
-                   <h2 className="text-xs font-black tracking-[0.3em] opacity-60 uppercase mb-4">Official Payment Record</h2>
-                   <div className="text-[10px] font-black uppercase opacity-60 space-y-1">
+                   <h2 className="text-xs font-black tracking-[0.3em] opacity-60 uppercase mb-4 print-dark-text">Official Payment Record</h2>
+                   <div className="text-[10px] font-black uppercase opacity-60 space-y-1 print-dark-text">
                      <p>LoopDeal Technical Services India</p>
                      <p>Industrial Hub, Sector 45</p>
                      <p>GSTIN: 27AABCU1234F1Z5</p>
@@ -190,59 +187,66 @@ export default function Invoices() {
                 </div>
               </div>
               <div className="text-right">
-                <span className="text-[10px] font-black uppercase tracking-widest opacity-60">Bill #</span>
-                <p className="text-5xl font-black italic tracking-tighter">#{selectedInvoice?.id}</p>
-                <Badge className="bg-white text-primary rounded-full mt-4 font-black italic text-[10px] px-4">
+                <span className="text-[10px] font-black uppercase tracking-widest opacity-60 print-dark-text">Bill #</span>
+                <p className="text-5xl font-black italic tracking-tighter print-dark-text">#{selectedInvoice?.id}</p>
+                <Badge className="bg-white text-primary rounded-full mt-4 font-black italic text-[10px] px-4 print-badge">
                   {selectedInvoice?.status}
                 </Badge>
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-12 border-t border-white/10 pt-10 relative z-10">
+            <div className="flex justify-between border-t border-white/10 pt-10 relative z-10 print-border w-full">
               <div>
-                <span className="text-[10px] font-black uppercase tracking-widest opacity-60">Customer Bill-To</span>
-                <p className="text-3xl font-black italic tracking-tighter mt-1 uppercase decoration-white/20 underline underline-offset-4">{selectedInvoice?.customer}</p>
+                <span className="text-[10px] font-black uppercase tracking-widest opacity-60 print-dark-text">Customer Bill-To</span>
+                {/* Replaced underline to prevent weird PDF renderer bugs */}
+                <p className="text-3xl font-black italic tracking-tighter mt-1 uppercase print-dark-text">{selectedInvoice?.customer}</p>
               </div>
-              <div className="text-right">
-                <span className="text-[10px] font-black uppercase tracking-widest opacity-60">Financial Date</span>
-                <p className="text-2xl font-black tracking-tighter italic mt-1">{selectedInvoice?.date}</p>
-                <p className="text-[10px] font-bold opacity-40 mt-1 uppercase tracking-widest">Order Reference: {selectedInvoice?.orderId}</p>
+              <div className="text-right max-w-[200px]">
+                <span className="text-[10px] font-black uppercase tracking-widest opacity-60 print-dark-text">Financial Date</span>
+                <p className="text-2xl font-black tracking-tighter italic mt-1 print-dark-text">{selectedInvoice?.date}</p>
+                <p className="text-[10px] font-bold opacity-40 mt-1 uppercase tracking-widest print-dark-text">Order Reference: {selectedInvoice?.orderId}</p>
               </div>
             </div>
           </div>
 
-          <div className="p-12 bg-card">
-            <div className="space-y-6 pb-8 border-b-2 border-primary/5">
-              <div className="flex justify-between items-center text-[11px] font-black uppercase tracking-widest text-primary/40 italic">
-                 <span>Hardware Description</span>
-                 <span>Subtotal</span>
-              </div>
-              <div className="space-y-5">
+          <div className="p-12 bg-white text-black w-full max-w-[800px] mx-auto">
+            {/* Standard HTML Table for bullet-proof printing bounds */}
+            <table className="w-full text-left border-collapse border-b-2 border-primary/5 pb-8 print-table-border">
+              <thead>
+                <tr className="border-b-2 border-primary/5 print-table-border">
+                  <th className="py-3 text-[11px] font-black uppercase tracking-widest text-primary/40 italic print-th">Hardware Description</th>
+                  <th className="py-3 text-[11px] font-black uppercase tracking-widest text-primary/40 italic text-right print-th">Subtotal</th>
+                </tr>
+              </thead>
+              <tbody>
                 {selectedInvoice?.items.map((item: any, i: number) => (
-                  <div key={i} className="flex justify-between items-start gap-4">
-                    <div className="flex flex-col flex-1">
-                      <span className="text-sm sm:text-lg font-black italic tracking-tighter uppercase text-foreground leading-tight break-words">{item.productName}</span>
-                      <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mt-1">
+                  <tr key={i} className="border-b border-gray-100 last:border-0">
+                    <td className="py-6 pr-4 align-top w-[70%]">
+                      <div className="text-base font-black italic tracking-tighter uppercase text-slate-900 leading-tight mb-1" style={{ wordBreak: 'break-word', whiteSpace: 'normal' }}>
+                         {item.productName}
+                      </div>
+                      <div className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">
                          Unit: {formatCurrency(item.price)} • Qty: {item.quantity}
-                      </span>
-                    </div>
-                    <span className="font-black text-xl sm:text-2xl text-foreground italic tracking-tighter shrink-0">{formatCurrency(item.price * item.quantity)}</span>
-                  </div>
+                      </div>
+                    </td>
+                    <td className="py-6 text-right align-top w-[30%]">
+                      <span className="font-black text-2xl text-slate-900 italic tracking-tighter">{formatCurrency(item.price * item.quantity)}</span>
+                    </td>
+                  </tr>
                 ))}
-              </div>
-            </div>
+              </tbody>
+            </table>
 
-            <div className="mt-10 mb-10 flex justify-between items-end">
+            <div className="mt-10 mb-10 flex justify-between items-end w-full">
                <div className="flex flex-col gap-1">
-                  <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground opacity-30 italic">Generated Authentically</span>
+                  <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 italic">Generated Authentically</span>
                   <div className="flex items-center gap-2">
-                     <div className="h-6 w-12 bg-slate-100 rounded flex items-center justify-center opacity-50"><span className="text-[6px] font-black">STAMP</span></div>
-                     <span className="text-[10px] font-bold text-success uppercase italic">Verified Transaction</span>
+                     <span className="text-[10px] font-bold text-emerald-600 uppercase italic print-verified">Verified Transaction</span>
                   </div>
                </div>
                <div className="text-right">
-                  <span className="text-[11px] font-black uppercase tracking-widest text-primary mb-1 block">Net Amount Due</span>
-                  <span className="text-6xl font-black italic tracking-tighter text-foreground decoration-primary decoration-8 underline underline-offset-8">
+                  <span className="text-[11px] font-black uppercase tracking-widest text-primary mb-1 block print-net-label">Net Amount Due</span>
+                  <span className="text-5xl font-black italic tracking-tighter text-slate-900">
                     {formatCurrency(selectedInvoice?.amount || 0)}
                   </span>
                </div>
@@ -257,29 +261,55 @@ export default function Invoices() {
               </Button>
             </div>
             
-            <p className="mt-8 text-center text-[9px] font-black text-muted-foreground uppercase tracking-widest opacity-20 italic">End of Official LoopDeal Transaction Document</p>
+            <p className="mt-8 text-center text-[9px] font-black text-slate-300 uppercase tracking-widest italic print-footer">End of Official LoopDeal Transaction Document</p>
           </div>
         </DialogContent>
       </Dialog>
 
       <style>{`
         @media print {
-          * {
-            -webkit-print-color-adjust: exact !important;
-            print-color-adjust: exact !important;
-          }
+          @page { size: auto; margin: 10mm; }
+          * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
           .no-print, [data-sonner-toaster], [data-sonner-toast] { display: none !important; }
+          
           ${selectedInvoice ? `
           body * { visibility: hidden; }
+          /* Reset page layout to absolutely ensure clean page bounds */
+          body, html { background: white !important; padding: 0 !important; margin: 0 !important; width: 100% !important; height: 100% !important; }
+          
           .printable-area, .printable-area * { visibility: visible; }
-          .printable-area { position: absolute; left: 0; top: 0; width: 100%; border-radius: 0 !important; box-shadow: none !important; }
+          .printable-area { 
+            position: absolute !important; 
+            left: 0 !important; 
+            top: 0 !important; 
+            width: 100% !important; 
+            max-width: 100% !important;
+            border-radius: 0 !important; 
+            box-shadow: none !important; 
+            margin: 0 !important;
+            padding: 0 !important;
+            transform: none !important;
+          }
+          
+          /* Force pure B&W layout for the header so no invisible text occurs */
+          .print-header { background: white !important; color: black !important; padding: 1rem !important; border-bottom: 3px solid #000 !important; }
+          .print-dark-text, .print-dark-text * { color: black !important; opacity: 1 !important; text-shadow: none !important; }
+          .print-logo { filter: none !important; /* Original colored logo */ }
+          .print-border { border-top-color: #000 !important; }
+          .print-badge { background: black !important; color: white !important; border: 1px solid black !important; }
+          
+          .print-table-border { border-color: black !important; }
+          .print-th { color: black !important; opacity: 1 !important; border-bottom: 2px solid black !important; }
+          .print-verified { color: black !important; }
+          .print-net-label { color: black !important; }
+          .print-footer { color: black !important; opacity: 0.5 !important; }
           ` : `
           /* Clean Master Report Printing */
           aside, header, button, [data-sidebar] { display: none !important; }
           body, html, main { background: white !important; padding: 0 !important; margin: 0 !important; width: 100% !important; }
-          .bg-card { box-shadow: none !important; border: 1px solid #eee !important; }
+          .bg-card { box-shadow: none !important; border: 1px solid #ccc !important; }
           .overflow-x-auto { overflow: visible !important; }
-          table { width: 100% !important; }
+          table { width: 100% !important; max-width: 100% !important; }
           `}
         }
       `}</style>
