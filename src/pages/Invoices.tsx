@@ -219,14 +219,14 @@ export default function Invoices() {
               </div>
               <div className="space-y-5">
                 {selectedInvoice?.items.map((item: any, i: number) => (
-                  <div key={i} className="flex justify-between items-start">
-                    <div className="flex flex-col">
-                      <span className="text-lg font-black italic tracking-tighter uppercase text-foreground leading-tight">{item.productName}</span>
+                  <div key={i} className="flex justify-between items-start gap-4">
+                    <div className="flex flex-col flex-1">
+                      <span className="text-sm sm:text-lg font-black italic tracking-tighter uppercase text-foreground leading-tight break-words">{item.productName}</span>
                       <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mt-1">
                          Unit: {formatCurrency(item.price)} • Qty: {item.quantity}
                       </span>
                     </div>
-                    <span className="font-black text-2xl text-foreground italic tracking-tighter">{formatCurrency(item.price * item.quantity)}</span>
+                    <span className="font-black text-xl sm:text-2xl text-foreground italic tracking-tighter shrink-0">{formatCurrency(item.price * item.quantity)}</span>
                   </div>
                 ))}
               </div>
@@ -264,10 +264,16 @@ export default function Invoices() {
 
       <style>{`
         @media print {
+          * {
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+          }
+          .no-print { display: none !important; }
+          ${selectedInvoice ? `
           body * { visibility: hidden; }
           .printable-area, .printable-area * { visibility: visible; }
-          .printable-area { position: fixed; left: 0; top: 0; width: 100%; border-radius: 0 !important; }
-          .no-print { display: none !important; }
+          .printable-area { position: absolute; left: 0; top: 0; width: 100%; border-radius: 0 !important; box-shadow: none !important; }
+          ` : ``}
         }
       `}</style>
     </div>
