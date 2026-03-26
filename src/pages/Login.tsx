@@ -113,7 +113,7 @@ export default function Login() {
           </button>
           
           <p className="text-[10px] text-muted-foreground uppercase tracking-widest leading-loose opacity-40">
-            {isLogin ? "Demo Access: naveen@loopdeal.in / admin123" : "Enterprise Registration requires master approval"}
+            {isLogin ? "Use your authorized credentials to access" : "Enterprise Registration requires master approval"}
           </p>
         </div>
       </div>
