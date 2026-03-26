@@ -105,9 +105,6 @@ const InvoiceTemplate = ({ invoice, logoUrl, isDialog = false }: { invoice: any,
             <Button onClick={() => window.print()} className="flex-1 rounded-full h-14 bg-secondary text-foreground font-black tracking-widest text-[11px] uppercase shadow-lg shadow-black/5 hover:scale-[1.02] transition-transform">
               <Printer className="mr-2 h-5 w-5 opacity-60" /> Print as PDF
             </Button>
-            <Button className="flex-1 rounded-full h-14 bg-primary text-white font-black tracking-widest text-[11px] uppercase shadow-2xl shadow-primary/30 hover:scale-[1.02] transition-transform">
-              <Mail className="mr-2 h-5 w-5 opacity-60" /> Send Copy
-            </Button>
           </div>
         )}
         
