@@ -273,7 +273,14 @@ export default function Invoices() {
           body * { visibility: hidden; }
           .printable-area, .printable-area * { visibility: visible; }
           .printable-area { position: absolute; left: 0; top: 0; width: 100%; border-radius: 0 !important; box-shadow: none !important; }
-          ` : ``}
+          ` : `
+          /* Clean Master Report Printing */
+          aside, header, button, [data-sidebar] { display: none !important; }
+          body, html, main { background: white !important; padding: 0 !important; margin: 0 !important; width: 100% !important; }
+          .bg-card { box-shadow: none !important; border: 1px solid #eee !important; }
+          .overflow-x-auto { overflow: visible !important; }
+          table { width: 100% !important; }
+          `}
         }
       `}</style>
     </div>
