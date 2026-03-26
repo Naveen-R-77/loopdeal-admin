@@ -268,7 +268,7 @@ export default function Invoices() {
             -webkit-print-color-adjust: exact !important;
             print-color-adjust: exact !important;
           }
-          .no-print { display: none !important; }
+          .no-print, [data-sonner-toaster], [data-sonner-toast] { display: none !important; }
           ${selectedInvoice ? `
           body * { visibility: hidden; }
           .printable-area, .printable-area * { visibility: visible; }
