@@ -19,7 +19,7 @@ import { cn, formatCurrency } from "@/lib/utils";
 import { useStore } from "@/contexts/StoreContext";
 
 // Extracted purely for bullet-proof, fail-safe printing.
-const InvoiceTemplate = ({ invoice, logoUrl, isDialog = false }: { invoice: any, logoUrl: string, isDialog?: boolean }) => {
+const InvoiceTemplate = ({ invoice, logoUrl, isDialog = false }: { invoice: { id: string, customer: string, date: string, orderId: string, status: string, amount: number, items: { productName: string, price: number, quantity: number }[] }, logoUrl: string, isDialog?: boolean }) => {
   if (!invoice) return null;
   return (
     <div className={cn("bg-white text-black w-full mx-auto print-template", isDialog ? "max-w-[800px]" : "max-w-[800px] mb-20")}>
@@ -67,7 +67,7 @@ const InvoiceTemplate = ({ invoice, logoUrl, isDialog = false }: { invoice: any,
             </tr>
           </thead>
           <tbody>
-            {invoice.items.map((item: any, i: number) => (
+            {invoice.items.map((item: { productName: string, price: number, quantity: number }, i: number) => (
               <tr key={i} className="border-b border-gray-100 last:border-0">
                 <td className="py-6 pr-4 align-top w-[70%]">
                   <div className="text-base font-black italic tracking-tighter uppercase text-slate-900 leading-tight mb-1" style={{ wordBreak: 'break-word', whiteSpace: 'normal' }}>
@@ -119,7 +119,7 @@ export default function Invoices() {
   const [search, setSearch] = useState("");
   const [isExporting, setIsExporting] = useState(false);
   const [isPrintingAll, setIsPrintingAll] = useState(false);
-  const [selectedInvoice, setSelectedInvoice] = useState<any>(null);
+  const [selectedInvoice, setSelectedInvoice] = useState<{ id: string, customer: string, date: string, orderId: string, status: string, amount: number, items: { productName: string, price: number, quantity: number }[] } | null>(null);
 
   const invoices = (orders || []).map((order, idx) => ({
     id: `INV-${1000 + idx}`,
@@ -163,13 +163,13 @@ export default function Invoices() {
 
   const handleStatusUpdate = (orderId: string, newStatus: string) => {
     const mappedStatus = newStatus === "Paid" ? "Delivered" : newStatus === "Pending" ? "Shipped" : "Pending";
-    updateOrderStatus(orderId, mappedStatus as any);
+    updateOrderStatus(orderId, mappedStatus);
     toast.success("Billing Status Updated", {
       description: `Payment record for ${orderId} has been synced.`,
     });
   };
 
-  const handleAction = (inv: any, action: 'print' | 'view') => {
+  const handleAction = (inv: { id: string, customer: string, date: string, orderId: string, status: string, amount: number, items: { productName: string, price: number, quantity: number }[] }, action: 'print' | 'view') => {
     setSelectedInvoice(inv);
     if (action === 'print') {
       toast.info("Preparing high-quality PDF...");

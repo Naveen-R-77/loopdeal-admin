@@ -1,11 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Bot, Send, User, RotateCcw, ShieldCheck, Database, Zap, ExternalLink, ChevronRight } from "lucide-react";
+import { Bot, Send, User, RotateCcw, ShieldCheck, Zap, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Avatar } from "@/components/ui/avatar";
 import { toast } from "sonner";
 import { motion, AnimatePresence } from "framer-motion";
 import { RAG_API_URL } from "@/config";
