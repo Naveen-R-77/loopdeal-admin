@@ -306,11 +306,13 @@ export default function Invoices() {
             .single-print-dialog, .single-print-dialog * { visibility: visible; }
             .single-print-dialog { 
               position: absolute !important; 
-              left: 48px !important; 
+              left: 0 !important; 
               top: 0 !important; 
               width: 100% !important; 
               max-width: 100% !important;
               box-shadow: none !important; 
+              transform: none !important;
+              margin: 0 !important;
             }
           ` : isPrintingAll ? `
             /* MULTIPLE INVOICE PRINTING */
@@ -319,12 +321,14 @@ export default function Invoices() {
             .all-invoices-print-container { 
                display: block !important; 
                position: absolute !important; 
-               left: 48px !important; 
+               left: 0 !important; 
                top: 0 !important; 
                width: 100% !important; 
                max-width: 100% !important;
+               transform: none !important;
+               margin: 0 !important;
             }
-            .page-break-container { page-break-after: always !important; page-break-inside: avoid !important; break-after: page !important; }
+            .page-break-container { page-break-after: always !important; page-break-inside: avoid !important; break-after: page !important; margin: 0 !important; padding: 0 !important; }
           ` : `
             /* Fallback generic print */
           `}
