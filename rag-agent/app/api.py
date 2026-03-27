@@ -1,6 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
+import threading
 import os
 import uvicorn
 
@@ -14,18 +15,23 @@ app = FastAPI(title="LoopDeal AI RAG Agent API")
 # Enable CORS for the Admin Dashboard to connect
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"], # In production, restrict this to the dashboard URL
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# In-memory DB needs to be populated on start
-print("Ingesting LoopDeal enterprise documents on startup...")
-try:
-    ingest_documents()
-except Exception as e:
-    print(f"Initial ingestion failed: {e}. Ensure data/docs is populated.")
+def _background_ingest():
+    """Run ingestion in a background thread so the server can bind to port immediately."""
+    print("Background thread: Ingesting LoopDeal enterprise documents...")
+    try:
+        ingest_documents()
+        print("Background thread: Ingestion complete.")
+    except Exception as e:
+        print(f"Background thread: Initial ingestion failed: {e}. Ensure data/docs is populated.")
+
+# Fire and forget - server binds to port immediately, ingestion happens in background
+threading.Thread(target=_background_ingest, daemon=True).start()
 
 class QueryRequest(BaseModel):
     query: str
