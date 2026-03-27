@@ -4,12 +4,12 @@ import requests
 def embed_text(text):
     """
     Ultra-lightweight cloud embeddings via Hugging Face.
-    0MB RAM usage locally! 🚀
+    Correcting URL to use the new Hugging Face Router.
     """
     hf_token = os.environ.get("HF_TOKEN")
     
-    # Correct HF Inference URL for BGE-Small
-    API_URL = "https://api-inference.huggingface.co/models/BAAI/bge-small-en-v1.5"
+    # New Hugging Face Router URL
+    API_URL = "https://router.huggingface.co/models/BAAI/bge-small-en-v1.5"
     headers = {"Authorization": f"Bearer {hf_token}"}
     
     try:
@@ -23,8 +23,6 @@ def embed_text(text):
         
         # Handle Nested Output: [[0.1, 0.2, ...]] or [0.1, 0.2, ...]
         if isinstance(result, list) and len(result) > 0 and isinstance(result[0], list):
-            # This is pooled from tokens (e.g. [1, 256, 384] case simplified)
-            # HF feature extraction sometimes returns the average or first token
             return result[0]
         
         return result
