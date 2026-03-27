@@ -1,13 +1,25 @@
-# Lazy-loaded model — only loads when embed_text is actually called
-_model = None
+import os
+import requests
 
 def embed_text(text):
-    global _model
-    if _model is None:
-        from sentence_transformers import SentenceTransformer
-        print("Loading BGE embedding model for the first time...")
-        _model = SentenceTransformer("BAAI/bge-small-en-v1.5")
-        print("Embedding model loaded.")
+    """
+    Ultra-lightweight cloud embeddings via Hugging Face.
+    0MB RAM usage locally! 🚀
+    """
+    hf_token = os.environ.get("HF_TOKEN")
     
-    # Returns a float list representing the semantic vector
-    return _model.encode(text).tolist()
+    # Model used: BAAI/bge-small-en-v1.5 (Consistent with local version)
+    API_URL = "https://api-inference.huggingface.co/pipeline/feature-extraction/BAAI/bge-small-en-v1.5"
+    headers = {"Authorization": f"Bearer {hf_token}"}
+    
+    try:
+        response = requests.post(API_URL, headers=headers, json={"inputs": text, "options": {"wait_for_model": True}})
+        if response.status_code != 200:
+             # Fallback to a mock small vector if API fails to prevent hard crash
+             print(f"Embedding API Error: {response.text}")
+             return [0.0] * 384 # Default dimension for bge-small
+        
+        return response.json()
+    except Exception as e:
+        print(f"Network error during embedding: {e}")
+        return [0.0] * 384

@@ -1,11 +1,8 @@
 langchain
 langchain-community
 chromadb
-sentence-transformers
-transformers
-accelerate
 fastapi
 uvicorn
 pypdf
-ollama
+requests
 huggingface_hub
