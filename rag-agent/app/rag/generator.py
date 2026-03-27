@@ -1,6 +1,4 @@
 import os
-import ollama
-from huggingface_hub import InferenceClient
 
 def generate_answer(query, context, stream=False):
     prompt = f"""Use the context below to answer the question about LoopDeal.
@@ -16,6 +14,8 @@ Question:
     hf_token = os.environ.get("HF_TOKEN")
     
     if hf_token:
+        # Lazy load HF client
+        from huggingface_hub import InferenceClient
         client = InferenceClient(api_key=hf_token)
         try:
             if stream:
@@ -39,8 +39,9 @@ Question:
             print(f"Hugging Face API Error: {e}")
             return [f"Error using Hugging Face Cloud: {str(e)}"] if stream else f"Error: {str(e)}"
 
-    # Default: Local Ollama
+    # Default: Local Ollama (fallback for local dev)
     try:
+        import ollama
         if stream:
             def ollama_stream_gen():
                 for chunk in ollama.chat(
