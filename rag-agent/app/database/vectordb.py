@@ -2,7 +2,8 @@ import chromadb
 import os
 
 # Database setup for LoopDeal's AI Knowledge Base
-DB_PATH = os.path.join(os.getcwd(), "chroma_db")
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+DB_PATH = os.path.join(BASE_DIR, "chroma_db")
 
 # Persistent ChromaDB client
 try:
@@ -10,10 +11,15 @@ try:
 except:
     client = chromadb.Client()
 
+# Reset collection logic: Delete if exists and create fresh to sync with Cloud Embeddings
+try:
+    client.delete_collection("loopdeal_knowledge")
+except:
+    pass
+
 collection = client.get_or_create_collection("loopdeal_knowledge")
 
 def add_document(doc_id, text, embedding):
-    # USE UPSERT instead of add to prevent "ID already exists" errors
     collection.upsert(
         ids=[doc_id],
         documents=[text],
@@ -25,7 +31,6 @@ def search(query_embedding):
         query_embeddings=[query_embedding],
         n_results=4
     )
-    # If no results found, return an empty list safely
-    if not results or not results["documents"]:
+    if not results or not results["documents"] or len(results["documents"][0]) == 0:
         return []
     return results["documents"][0]
