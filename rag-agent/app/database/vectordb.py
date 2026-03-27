@@ -11,15 +11,11 @@ try:
 except:
     client = chromadb.Client()
 
-# Reset collection logic: Delete if exists and create fresh to sync with Cloud Embeddings
-try:
-    client.delete_collection("loopdeal_knowledge")
-except:
-    pass
-
+# NO MORE DELETE ON EVERY STARTUP - Persistent is better for the demo
 collection = client.get_or_create_collection("loopdeal_knowledge")
 
 def add_document(doc_id, text, embedding):
+    # Upsert logic to handle duplicate IDs gracefully
     collection.upsert(
         ids=[doc_id],
         documents=[text],
